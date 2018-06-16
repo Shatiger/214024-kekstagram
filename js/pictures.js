@@ -39,12 +39,12 @@ var generateComments = function () {
     var commentId = Math.floor(Math.random() * (COMMENT_PATTERNS.length - 1));
     if (commentsIds.indexOf(commentId) === -1) {
       commentsIds.push(commentId);
-    };
-  };
+    }
+  }
   var comments = [];
   for (var i = 0; i < commentsIds.length; i++) {
     comments[i] = COMMENT_PATTERNS[commentsIds[i]];
-  };
+  }
   return comments;
 };
 
@@ -64,12 +64,12 @@ var createPosts = function (cnt) {
     var pictureId = Math.floor(Math.random() * cnt) + 1;
     if (picturesIds.indexOf(pictureId) === -1) {
       picturesIds.push(pictureId);
-    };
-  };
+    }
+  }
   var posts = [];
   for (var i = 0; i < cnt; i++) {
     posts[i] = createPost(picturesIds[i]);
-  };
+  }
   return posts;
 };
 
@@ -80,7 +80,7 @@ var renderPosts = function (posts) {
     pictureElement.querySelector('.picture__stat--likes').textContent = posts[i].likes;
     pictureElement.querySelector('.picture__stat--comments').textContent = posts[i].comments.length;
     listElement.appendChild(pictureElement);
-  };
+  }
 };
 
 var renderPost = function (post) {
@@ -99,5 +99,3 @@ var renderPost = function (post) {
 var posts = createPosts(25);
 renderPosts(posts);
 renderPost(posts[0]);
-
-

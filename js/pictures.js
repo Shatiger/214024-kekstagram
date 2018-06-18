@@ -66,11 +66,11 @@ var createPosts = function (cnt) {
 };
 
 var renderPics = function (post) {
-    var pictureElement = pictureTemplate.cloneNode(true);
-    pictureElement.querySelector('.picture__img').src = post.url;
-    pictureElement.querySelector('.picture__stat--likes').textContent = post.likes;
-    pictureElement.querySelector('.picture__stat--comments').textContent = post.comments.length;
-    return pictureElement;
+  var pictureElement = pictureTemplate.cloneNode(true);
+  pictureElement.querySelector('.picture__img').src = post.url;
+  pictureElement.querySelector('.picture__stat--likes').textContent = post.likes;
+  pictureElement.querySelector('.picture__stat--comments').textContent = post.comments.length;
+  return pictureElement;
 };
 
 var renderPost = function (post) {

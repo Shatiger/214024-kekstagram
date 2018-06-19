@@ -27,6 +27,7 @@ var listElement = document.querySelector('.pictures');
 var pictureTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture__link');
+var commentTemplate = document.querySelector('.social__comment');
 
 var generateComments = function () {
   var commentsCount = Math.ceil(Math.random() * COMMENTS_MAX_COUNT);
@@ -74,29 +75,21 @@ var renderPics = function (post) {
 };
 
 var renderPost = function (post) {
-  document.querySelector('.big-picture .big-picture__img img').src = post.url;
-  document.querySelector('.big-picture .likes-count').textContent = post.likes;
-  document.querySelector('.big-picture .comments-count').textContent = post.comments.length;
-  document.querySelector('.big-picture .social__comments').innerHTML = '';
+  var bigPicture = document.querySelector('.big-picture');
+  bigPicture.querySelector('.big-picture__img img').src = post.url;
+  bigPicture.querySelector('.likes-count').textContent = post.likes;
+  bigPicture.querySelector('.comments-count').textContent = post.comments.length;
+  bigPicture.querySelector('.social__comments').innerHTML = '';
+  var fragment = document.createDocumentFragment();
   for (var i = 0; i < post.comments.length; i++) {
     var avatar = Math.ceil(Math.random() * 5);
-    var comment = document.createElement('li');
-    var picture = document.createElement('img');
-    var commentText = document.createElement('p');
-    comment.classList.add('social__comment');
-    comment.classList.add('social__comment--text');
-    picture.classList.add('social__picture');
-    picture.src = 'img/avatar-' + avatar + '.svg';
-    picture.alt = 'Аватар комментатора фотографии';
-    picture.width = 35;
-    picture.height = 35;
-    commentText.classList.add('social__text');
-    commentText.textContent = post.comments[i];
-    comment.appendChild(picture);
-    comment.appendChild(commentText);
-    document.querySelector('.big-picture .social__comments').appendChild(comment);
+    var commentElement = commentTemplate.cloneNode(true);
+    commentElement.querySelector('img').src = 'img/avatar-' + avatar + '.svg';
+    commentElement.querySelector('p').textContent = post.comments[i];
+    fragment.appendChild(commentElement);
+    bigPicture.querySelector('.social__comments').appendChild(fragment);
   }
-  document.querySelector('.big-picture .social__caption').textContent = post.description;
+  bigPicture.querySelector('.social__caption').textContent = post.description;
 };
 
 document.querySelector('.big-picture').classList.remove('hidden');

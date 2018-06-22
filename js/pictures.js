@@ -30,6 +30,14 @@ var pictureTemplate = document.querySelector('#picture')
 var commentTemplate = document.querySelector('.social__comment');
 var bigPicture = document.querySelector('.big-picture');
 
+var uploadButton = document.getElementById('upload-file');
+var uploadCancelButton = document.getElementById('upload-cancel');
+var uploadFileInput = document.getElementById('upload-file');
+var scalePin = document.querySelector('.scale__pin');
+var effectItem = document.querySelectorAll('.effects__item');
+var effectRadio = document.getElementById('upload-select-image').effect;
+var previewImage = document.querySelector('.img-upload__preview img');
+
 var generateComments = function () {
   var commentsCount = Math.ceil(Math.random() * COMMENTS_MAX_COUNT);
   var comments = [];
@@ -76,6 +84,7 @@ var renderPics = function (post) {
 };
 
 var renderPost = function (post) {
+  bigPicture.classList.remove('hidden');
   bigPicture.querySelector('.big-picture__img img').src = post.url;
   bigPicture.querySelector('.likes-count').textContent = post.likes;
   bigPicture.querySelector('.comments-count').textContent = post.comments.length;
@@ -92,7 +101,32 @@ var renderPost = function (post) {
   bigPicture.querySelector('.social__caption').textContent = post.description;
 };
 
-bigPicture.classList.remove('hidden');
+var onUploadButtonChange = function () {
+  document.querySelector('.img-upload__overlay').classList.remove('hidden');
+};
+uploadButton.addEventListener('change', onUploadButtonChange);
+
+var onUploadCancelButtonClick = function () {
+  document.querySelector('.img-upload__overlay').classList.add('hidden');
+  uploadFileInput.value = '';
+};
+uploadCancelButton.addEventListener('click', onUploadCancelButtonClick);
+
+var onScalePinMouseUp = function () {
+  //
+};
+scalePin.addEventListener('mouseup', onScalePinMouseUp);
+
+var onEffectChange = function () {
+  previewImage.className = '';
+  if (effectRadio.value !== 'none') {
+    previewImage.classList.add('effects__preview--' + effectRadio.value);
+  }
+};
+for (var i = 0; i < effectItem.length; i++) {
+  effectItem[i].addEventListener('click', onEffectChange);
+}
+
 bigPicture.querySelector('.social__comment-count').classList.add('visually-hidden');
 bigPicture.querySelector('.social__loadmore').classList.add('visually-hidden');
 
@@ -103,4 +137,4 @@ for (var i = 0; i < posts.length; i++) {
 }
 listElement.appendChild(fragment);
 
-renderPost(posts[0]);
+//renderPost(posts[0]);

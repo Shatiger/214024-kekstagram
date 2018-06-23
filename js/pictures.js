@@ -149,8 +149,8 @@ var setDefaultResizeValue = function () {
 setDefaultResizeValue();
 
 var onResizeMinusButtonClick = function () {
-  if (parseInt(resizeControlValue.value) > RESIZE_MIN) {
-    var resizeValue = parseInt(resizeControlValue.value);
+  if (parseInt(resizeControlValue.value, 10) > RESIZE_MIN) {
+    var resizeValue = parseInt(resizeControlValue.value, 10);
     resizeValue -= RESIZE_STEP;
     resizeControlValue.value = resizeValue + '%';
     previewImage.style.transform = 'scale(' + (resizeValue / 100) + ')';
@@ -159,8 +159,8 @@ var onResizeMinusButtonClick = function () {
 resizeControlMinus.addEventListener('click', onResizeMinusButtonClick);
 
 var onResizePlusButtonClick = function () {
-  if (parseInt(resizeControlValue.value) < RESIZE_MAX) {
-    var resizeValue = parseInt(resizeControlValue.value);
+  if (parseInt(resizeControlValue.value, 10) < RESIZE_MAX) {
+    var resizeValue = parseInt(resizeControlValue.value, 10);
     resizeValue += RESIZE_STEP;
     resizeControlValue.value = resizeValue + '%';
     previewImage.style.transform = 'scale(' + (resizeValue / 100) + ')';
@@ -174,7 +174,7 @@ var onScalePinMouseUp = function (evt) {
   var scaleLineWidth = scaleLine.offsetWidth;
   var scalePinPosition = Math.floor(((scalePinX - scaleLineX) / scaleLineWidth) * 100);
   scaleValue.value = scalePinPosition;
-  switch(effectRadio.value) {
+  switch (effectRadio.value) {
     case 'chrome':
       previewImage.style.filter = 'grayscale(' + (scalePinPosition / 100) + ')';
       break;
@@ -216,15 +216,15 @@ bigPicture.querySelector('.social__loadmore').classList.add('visually-hidden');
 
 var posts = createPosts(25);
 var fragment = document.createDocumentFragment();
-for (var i = 0; i < posts.length; i++) {
-  fragment.appendChild(renderPics(posts[i]));
+for (var j = 0; j < posts.length; j++) {
+  fragment.appendChild(renderPics(posts[j]));
 }
 listElement.appendChild(fragment);
 
 var onPictureClick = function (node) {
-  for (var i = 0; i < posts.length; i++) {
-    if (posts[i].element === node.id) {
-      renderPost(posts[i]);
+  for (var k = 0; k < posts.length; k++) {
+    if (posts[k].element === node.id) {
+      renderPost(posts[k]);
       break;
     }
   }
@@ -232,7 +232,9 @@ var onPictureClick = function (node) {
 
 picturesContainer.onclick = function (evt) {
   var target = evt.target;
-  if (target.className !== 'picture__img') return;
+  if (target.className !== 'picture__img') {
+    return;
+  }
   evt.preventDefault();
   onPictureClick(target);
 };

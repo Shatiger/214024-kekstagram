@@ -23,6 +23,10 @@ var DESCRIPTION_PATTERNS = [
   'Вот это тачка!'
 ];
 
+var RESIZE_MIN = 25;
+var RESIZE_MAX = 100;
+var RESIZE_STEP = 25;
+
 var listElement = document.querySelector('.pictures');
 var pictureTemplate = document.querySelector('#picture')
   .content
@@ -37,6 +41,18 @@ var scalePin = document.querySelector('.scale__pin');
 var effectItem = document.querySelectorAll('.effects__item');
 var effectRadio = document.getElementById('upload-select-image').effect;
 var previewImage = document.querySelector('.img-upload__preview img');
+var scale = document.querySelector('.scale');
+var scaleValue = document.querySelector('.scale__value');
+var scaleLine = document.querySelector('.scale__line');
+var scaleLevel = document.querySelector('.scale__level');
+var radioFilter = document.getElementsByName('effect');
+
+var resizeControlValue = document.querySelector('.resize__control--value');
+var resizeControlMinus = document.querySelector('.resize__control--minus');
+var resizeControlPlus = document.querySelector('.resize__control--plus');
+
+var picturesContainer = document.querySelector('.pictures');
+var pictureCancel = document.getElementById('picture-cancel');
 
 var generateComments = function () {
   var commentsCount = Math.ceil(Math.random() * COMMENTS_MAX_COUNT);
@@ -55,7 +71,8 @@ var createPost = function (num) {
     url: 'photos/' + num + '.jpg',
     likes: Math.floor(Math.random() * (LIKES_MAX_COUNT - LIKES_MIN_COUNT)) + LIKES_MIN_COUNT,
     comments: generateComments(),
-    description: DESCRIPTION_PATTERNS[Math.floor(Math.random() * (DESCRIPTION_PATTERNS.length))]
+    description: DESCRIPTION_PATTERNS[Math.floor(Math.random() * (DESCRIPTION_PATTERNS.length))],
+    element: 'pic' + num
   };
   return post;
 };
@@ -78,6 +95,7 @@ var createPosts = function (cnt) {
 var renderPics = function (post) {
   var pictureElement = pictureTemplate.cloneNode(true);
   pictureElement.querySelector('.picture__img').src = post.url;
+  pictureElement.querySelector('.picture__img').id = post.element;
   pictureElement.querySelector('.picture__stat--likes').textContent = post.likes;
   pictureElement.querySelector('.picture__stat--comments').textContent = post.comments.length;
   return pictureElement;
@@ -102,7 +120,10 @@ var renderPost = function (post) {
 };
 
 var onUploadButtonChange = function () {
+  radioFilter[0].checked = true;
+  onEffectChange();
   document.querySelector('.img-upload__overlay').classList.remove('hidden');
+  setDefaultResizeValue();
 };
 uploadButton.addEventListener('change', onUploadButtonChange);
 
@@ -112,16 +133,79 @@ var onUploadCancelButtonClick = function () {
 };
 uploadCancelButton.addEventListener('click', onUploadCancelButtonClick);
 
-var onScalePinMouseUp = function () {
-  //
+var setDefaultScaleValue = function () {
+  scaleValue.value = 100;
+  scalePin.style.left = '100%';
+  scaleLevel.style.width = '100%';
+};
+
+setDefaultScaleValue();
+
+var setDefaultResizeValue = function () {
+  resizeControlValue.value = RESIZE_MAX + '%';
+  previewImage.style.transform = 'scale(' + (RESIZE_MAX / 100) + ')';
+};
+
+setDefaultResizeValue();
+
+var onResizeMinusButtonClick = function () {
+  if (parseInt(resizeControlValue.value) > RESIZE_MIN) {
+    var resizeValue = parseInt(resizeControlValue.value);
+    resizeValue -= RESIZE_STEP;
+    resizeControlValue.value = resizeValue + '%';
+    previewImage.style.transform = 'scale(' + (resizeValue / 100) + ')';
+  }
+};
+resizeControlMinus.addEventListener('click', onResizeMinusButtonClick);
+
+var onResizePlusButtonClick = function () {
+  if (parseInt(resizeControlValue.value) < RESIZE_MAX) {
+    var resizeValue = parseInt(resizeControlValue.value);
+    resizeValue += RESIZE_STEP;
+    resizeControlValue.value = resizeValue + '%';
+    previewImage.style.transform = 'scale(' + (resizeValue / 100) + ')';
+  }
+};
+resizeControlPlus.addEventListener('click', onResizePlusButtonClick);
+
+var onScalePinMouseUp = function (evt) {
+  var scalePinX = evt.clientX;
+  var scaleLineX = scaleLine.getBoundingClientRect().left;
+  var scaleLineWidth = scaleLine.offsetWidth;
+  var scalePinPosition = Math.floor(((scalePinX - scaleLineX) / scaleLineWidth) * 100);
+  scaleValue.value = scalePinPosition;
+  switch(effectRadio.value) {
+    case 'chrome':
+      previewImage.style.filter = 'grayscale(' + (scalePinPosition / 100) + ')';
+      break;
+    case 'sepia':
+      previewImage.style.filter = 'sepia(' + (scalePinPosition / 100) + ')';
+      break;
+    case 'marvin':
+      previewImage.style.filter = 'invert(' + scalePinPosition + '%)';
+      break;
+    case 'phobos':
+      previewImage.style.filter = 'blur(' + ((scalePinPosition / 100) * 5) + 'px)';
+      break;
+    case 'heat':
+      previewImage.style.filter = 'brightness(' + (((scalePinPosition / 100) * 2) + 1) + ')';
+      break;
+    default:
+      break;
+  }
 };
 scalePin.addEventListener('mouseup', onScalePinMouseUp);
 
 var onEffectChange = function () {
-  previewImage.className = '';
+  previewImage.removeAttribute('class');
+  previewImage.style.filter = '';
   if (effectRadio.value !== 'none') {
+    scale.classList.remove('hidden');
     previewImage.classList.add('effects__preview--' + effectRadio.value);
+  } else {
+    scale.classList.add('hidden');
   }
+  setDefaultScaleValue();
 };
 for (var i = 0; i < effectItem.length; i++) {
   effectItem[i].addEventListener('click', onEffectChange);
@@ -137,4 +221,23 @@ for (var i = 0; i < posts.length; i++) {
 }
 listElement.appendChild(fragment);
 
-//renderPost(posts[0]);
+var onPictureClick = function (node) {
+  for (var i = 0; i < posts.length; i++) {
+    if (posts[i].element === node.id) {
+      renderPost(posts[i]);
+      break;
+    }
+  }
+};
+
+picturesContainer.onclick = function (evt) {
+  var target = evt.target;
+  if (target.className !== 'picture__img') return;
+  evt.preventDefault();
+  onPictureClick(target);
+};
+
+var onPictureCancelClick = function () {
+  bigPicture.classList.add('hidden');
+};
+pictureCancel.addEventListener('click', onPictureCancelClick);

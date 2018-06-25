@@ -255,10 +255,6 @@ var closePost = function () {
   document.removeEventListener('keydown', onPostEscPress);
 };
 
-var onPictureClick = function (node) {
-  openPost(node);
-};
-
 var onPicturesContainerClick = function (evt) {
   var target = evt.target;
   if (target.className !== 'picture__img') {

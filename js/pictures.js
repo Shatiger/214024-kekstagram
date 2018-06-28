@@ -328,8 +328,6 @@ var onPostEscPress = function (evt) {
       };
       var scaleLineWidth = scaleLine.offsetWidth;
       var scaleLineX = scaleLine.getBoundingClientRect().left;
-      //setupDialogElement.style.top = (setupDialogElement.offsetTop - shift.y) + 'px';
-      //var scalePinMovementX = scalePin.offsetLeft - shift.x;
 
       if (currentCursorCoords.x >= scaleLineX && currentCursorCoords.x <= (scaleLineX + scaleLineWidth)) {
         var shift = {

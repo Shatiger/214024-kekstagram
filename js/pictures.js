@@ -358,6 +358,16 @@ var onScalePinMouseDown = function (evt) {
 
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
+    var currentCursorCoordX = upEvt.clientX;
+    var scaleLineX = scaleLine.getBoundingClientRect().left;
+    var scaleLineWidth = scaleLine.getBoundingClientRect().right - scaleLineX;
+    if (currentCursorCoordX >= scaleLineX && currentCursorCoordX <= (scaleLineX + scaleLineWidth)) {
+      var shiftX = startCoordX - currentCursorCoordX;
+      startCoordX = upEvt.clientX;
+      var scalePinPosition = ((startCoordX - scaleLineX) / scaleLineWidth) * 100;
+      scalePin.style.left = (scalePin.offsetLeft - shiftX) + 'px';
+      setEffectValue(scalePinPosition);
+    }
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
   };

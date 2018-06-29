@@ -336,7 +336,7 @@ var setEffectValue = function (scalePinPosition) {
   }
 };
 
-scalePin.addEventListener('mousedown', function (evt) {
+var onScalePinMouseDown = function (evt) {
   evt.preventDefault();
 
   var startCoordX = evt.clientX;
@@ -364,4 +364,5 @@ scalePin.addEventListener('mousedown', function (evt) {
 
   document.addEventListener('mousemove', onMouseMove);
   document.addEventListener('mouseup', onMouseUp);
-});
+};
+scalePin.addEventListener('mousedown', onScalePinMouseDown);

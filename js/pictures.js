@@ -312,65 +312,56 @@ var onPostEscPress = function (evt) {
   }
 };
 
-(function () {
+var setEffectValue = function (scalePinPosition) {
+  scaleValue.value = scalePinPosition;
+  scaleLevel.style.width = scalePinPosition + '%';
+  switch (effectRadio.value) {
+    case 'chrome':
+      previewImage.style.filter = 'grayscale(' + (scalePinPosition / 100) + ')';
+      break;
+    case 'sepia':
+      previewImage.style.filter = 'sepia(' + (scalePinPosition / 100) + ')';
+      break;
+    case 'marvin':
+      previewImage.style.filter = 'invert(' + scalePinPosition + '%)';
+      break;
+    case 'phobos':
+      previewImage.style.filter = 'blur(' + ((scalePinPosition / 100) * 5) + 'px)';
+      break;
+    case 'heat':
+      previewImage.style.filter = 'brightness(' + (((scalePinPosition / 100) * 2) + 1) + ')';
+      break;
+    default:
+      break;
+  }
+};
 
-  scalePin.addEventListener('mousedown', function (evt) {
-    evt.preventDefault();
+scalePin.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
 
-    var startCoords = {
-      x: evt.clientX
-    };
+  var startCoordX = evt.clientX;
 
-    var onMouseMove = function (moveEvt) {
-      moveEvt.preventDefault();
-      var currentCursorCoords = {
-        x: moveEvt.clientX
-      };
-      var scaleLineWidth = scaleLine.offsetWidth;
-      var scaleLineX = scaleLine.getBoundingClientRect().left;
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+    var currentCursorCoordX = moveEvt.clientX;
+    var scaleLineX = scaleLine.getBoundingClientRect().left;
+    var scaleLineWidth = scaleLine.getBoundingClientRect().right - scaleLineX;
 
-      if (currentCursorCoords.x >= scaleLineX && currentCursorCoords.x <= (scaleLineX + scaleLineWidth)) {
-        var shift = {
-          x: startCoords.x - currentCursorCoords.x,
-        };
-        startCoords = {
-          x: moveEvt.clientX,
-        };
-        var scalePinPosition = ((startCoords.x - scaleLineX) / scaleLineWidth) * 100;
-        scalePin.style.left = (scalePin.offsetLeft - shift.x) + 'px';
-        scaleValue.value = scalePinPosition;
-        scaleLevel.style.width = scalePinPosition + '%';
-        switch (effectRadio.value) {
-          case 'chrome':
-            previewImage.style.filter = 'grayscale(' + (scalePinPosition / 100) + ')';
-            break;
-          case 'sepia':
-            previewImage.style.filter = 'sepia(' + (scalePinPosition / 100) + ')';
-            break;
-          case 'marvin':
-            previewImage.style.filter = 'invert(' + scalePinPosition + '%)';
-            break;
-          case 'phobos':
-            previewImage.style.filter = 'blur(' + ((scalePinPosition / 100) * 5) + 'px)';
-            break;
-          case 'heat':
-            previewImage.style.filter = 'brightness(' + (((scalePinPosition / 100) * 2) + 1) + ')';
-            break;
-          default:
-            break;
-        }
-      }
-    };
+    if (currentCursorCoordX >= scaleLineX && currentCursorCoordX <= (scaleLineX + scaleLineWidth)) {
+      var shiftX = startCoordX - currentCursorCoordX;
+      startCoordX = moveEvt.clientX;
+      var scalePinPosition = ((startCoordX - scaleLineX) / scaleLineWidth) * 100;
+      scalePin.style.left = (scalePin.offsetLeft - shiftX) + 'px';
+      setEffectValue(scalePinPosition);
+    }
+  };
 
-    var onMouseUp = function (upEvt) {
-      upEvt.preventDefault();
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
-    };
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
 
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
-  });
-
-
-})();
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+});

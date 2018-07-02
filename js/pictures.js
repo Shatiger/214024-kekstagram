@@ -2,10 +2,10 @@
 
 (function () {
   var generateComments = function () {
-    var commentsCount = Math.ceil(Math.random() * COMMENTS_MAX_COUNT);
+    var commentsCount = Math.ceil(Math.random() * window.COMMENTS_MAX_COUNT);
     var comments = [];
     while (comments.length < commentsCount) {
-      var comment = COMMENT_PATTERNS[Math.floor(Math.random() * (COMMENT_PATTERNS.length))];
+      var comment = window.COMMENT_PATTERNS[Math.floor(Math.random() * (window.COMMENT_PATTERNS.length))];
       if (comments.indexOf(comment) === -1) {
         comments.push(comment);
       }
@@ -16,9 +16,9 @@
   var createPost = function (num) {
     var post = {
       url: 'photos/' + num + '.jpg',
-      likes: Math.floor(Math.random() * (LIKES_MAX_COUNT - LIKES_MIN_COUNT)) + LIKES_MIN_COUNT,
+      likes: Math.floor(Math.random() * (window.LIKES_MAX_COUNT - window.LIKES_MIN_COUNT)) + window.LIKES_MIN_COUNT,
       comments: generateComments(),
-      description: DESCRIPTION_PATTERNS[Math.floor(Math.random() * (DESCRIPTION_PATTERNS.length))],
+      description: window.DESCRIPTION_PATTERNS[Math.floor(Math.random() * (window.DESCRIPTION_PATTERNS.length))],
       element: 'pic' + num
     };
     return post;
@@ -49,32 +49,32 @@
   };
 
   var renderPost = function (post) {
-    bigPicture.classList.remove('hidden');
-    bigPicture.querySelector('.big-picture__img img').src = post.url;
-    bigPicture.querySelector('.likes-count').textContent = post.likes;
-    bigPicture.querySelector('.comments-count').textContent = post.comments.length;
-    bigPicture.querySelector('.social__comments').innerHTML = '';
+    window.bigPicture.classList.remove('hidden');
+    window.bigPicture.querySelector('.big-picture__img img').src = post.url;
+    window.bigPicture.querySelector('.likes-count').textContent = post.likes;
+    window.bigPicture.querySelector('.comments-count').textContent = post.comments.length;
+    window.bigPicture.querySelector('.social__comments').innerHTML = '';
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < post.comments.length; i++) {
       var avatar = Math.ceil(Math.random() * 5);
-      var commentElement = commentTemplate.cloneNode(true);
+      var commentElement = window.commentTemplate.cloneNode(true);
       commentElement.querySelector('img').src = 'img/avatar-' + avatar + '.svg';
       commentElement.querySelector('p').textContent = post.comments[i];
       fragment.appendChild(commentElement);
     }
-    bigPicture.querySelector('.social__comments').appendChild(fragment);
-    bigPicture.querySelector('.social__caption').textContent = post.description;
+    window.bigPicture.querySelector('.social__comments').appendChild(fragment);
+    window.bigPicture.querySelector('.social__caption').textContent = post.description;
   };
 
-  bigPicture.querySelector('.social__comment-count').classList.add('visually-hidden');
-  bigPicture.querySelector('.social__loadmore').classList.add('visually-hidden');
+  window.bigPicture.querySelector('.social__comment-count').classList.add('visually-hidden');
+  window.bigPicture.querySelector('.social__loadmore').classList.add('visually-hidden');
 
   var posts = createPosts(25);
   var fragment = document.createDocumentFragment();
   for (var j = 0; j < posts.length; j++) {
     fragment.appendChild(renderPics(posts[j]));
   }
-  listElement.appendChild(fragment);
+  window.listElement.appendChild(fragment);
 
   var openPost = function (node) {
     for (var k = 0; k < posts.length; k++) {
@@ -86,8 +86,8 @@
     }
   };
 
-  window.closePost = function () {
-    bigPicture.classList.add('hidden');
+  var closePost = function () {
+    window.bigPicture.classList.add('hidden');
     document.removeEventListener('keydown', onPostEscPress);
   };
 
@@ -99,11 +99,17 @@
     evt.preventDefault();
     openPost(target);
   };
-  picturesContainer.addEventListener('click', onPicturesContainerClick);
+  window.picturesContainer.addEventListener('click', onPicturesContainerClick);
 
   var onPictureCancelClick = function () {
     closePost();
   };
-  pictureCancel.addEventListener('click', onPictureCancelClick);
+  window.pictureCancel.addEventListener('click', onPictureCancelClick);
+
+  var onPostEscPress = function (evt) {
+    if (evt.keyCode === window.ESC_KEYCODE) {
+      closePost();
+    }
+  };
 
 })();

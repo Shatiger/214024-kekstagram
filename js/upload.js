@@ -3,21 +3,21 @@
 (function () {
 
   var setDefaultScaleValue = function () {
-    scaleValue.value = 100;
-    scalePin.style.left = '100%';
-    scaleLevel.style.width = '100%';
+    window.scaleValue.value = 100;
+    window.scalePin.style.left = '100%';
+    window.scaleLevel.style.width = '100%';
   };
 
   var setDefaultResizeValue = function () {
-    resizeControlValue.value = RESIZE_MAX + '%';
-    previewImage.style.transform = 'scale(' + (RESIZE_MAX / 100) + ')';
+    window.resizeControlValue.value = RESIZE_MAX + '%';
+    window.previewImage.style.transform = 'scale(' + (RESIZE_MAX / 100) + ')';
   };
 
   setDefaultResizeValue();
   setDefaultScaleValue();
 
   var openUploadOverlay = function () {
-    radioFilter[0].checked = true;
+    window.radioFilter[0].checked = true;
     changeEffect();
     document.querySelector('.img-upload__overlay').classList.remove('hidden');
     setDefaultResizeValue();
@@ -27,48 +27,48 @@
 
   var closeUploadOverlay = function () {
     document.querySelector('.img-upload__overlay').classList.add('hidden');
-    uploadFileInput.value = '';
+    window.uploadFileInput.value = '';
     document.removeEventListener('keydown', onUploadEscPress);
   };
 
   var onUploadButtonChange = function () {
     openUploadOverlay();
   };
-  uploadButton.addEventListener('change', onUploadButtonChange);
+  window.uploadButton.addEventListener('change', onUploadButtonChange);
 
   var onUploadCancelButtonClick = function () {
     closeUploadOverlay();
   };
-  uploadCancelButton.addEventListener('click', onUploadCancelButtonClick);
+  window.uploadCancelButton.addEventListener('click', onUploadCancelButtonClick);
 
   var onResizeMinusButtonClick = function () {
-    if (parseInt(resizeControlValue.value, 10) > RESIZE_MIN) {
-      var resizeValue = parseInt(resizeControlValue.value, 10);
-      resizeValue -= RESIZE_STEP;
-      resizeControlValue.value = resizeValue + '%';
-      previewImage.style.transform = 'scale(' + (resizeValue / 100) + ')';
+    if (parseInt(window.resizeControlValue.value, 10) > window.RESIZE_MIN) {
+      var resizeValue = parseInt(window.resizeControlValue.value, 10);
+      resizeValue -= window.RESIZE_STEP;
+      window.resizeControlValue.value = resizeValue + '%';
+      window.previewImage.style.transform = 'scale(' + (resizeValue / 100) + ')';
     }
   };
-  resizeControlMinus.addEventListener('click', onResizeMinusButtonClick);
+  window.resizeControlMinus.addEventListener('click', onResizeMinusButtonClick);
 
   var onResizePlusButtonClick = function () {
-    if (parseInt(resizeControlValue.value, 10) < RESIZE_MAX) {
+    if (parseInt(window.resizeControlValue.value, 10) < window.RESIZE_MAX) {
       var resizeValue = parseInt(resizeControlValue.value, 10);
-      resizeValue += RESIZE_STEP;
-      resizeControlValue.value = resizeValue + '%';
-      previewImage.style.transform = 'scale(' + (resizeValue / 100) + ')';
+      resizeValue += window.RESIZE_STEP;
+      window.resizeControlValue.value = resizeValue + '%';
+      window.previewImage.style.transform = 'scale(' + (resizeValue / 100) + ')';
     }
   };
-  resizeControlPlus.addEventListener('click', onResizePlusButtonClick);
+  window.resizeControlPlus.addEventListener('click', onResizePlusButtonClick);
 
   var changeEffect = function () {
-    previewImage.removeAttribute('class');
-    previewImage.style.filter = '';
-    if (effectRadio.value !== 'none') {
-      scale.classList.remove('hidden');
-      previewImage.classList.add('effects__preview--' + effectRadio.value);
+    window.previewImage.removeAttribute('class');
+    window.previewImage.style.filter = '';
+    if (window.effectRadio.value !== 'none') {
+      window.scale.classList.remove('hidden');
+      window.previewImage.classList.add('effects__preview--' + window.effectRadio.value);
     } else {
-      scale.classList.add('hidden');
+      window.scale.classList.add('hidden');
     }
     setDefaultScaleValue();
   };
@@ -77,18 +77,12 @@
     changeEffect();
   };
   for (var i = 0; i < effectItem.length; i++) {
-    effectItem[i].addEventListener('click', onEffectChange);
+    window.effectItem[i].addEventListener('click', onEffectChange);
   }
 
-  window.onUploadEscPress = function (evt) {
-    if (evt.keyCode === ESC_KEYCODE && document.activeElement !== inputHashtags && document.activeElement !== inputDescription) {
+  var onUploadEscPress = function (evt) {
+    if (evt.keyCode === window.ESC_KEYCODE && document.activeElement !== window.inputHashtags && document.activeElement !== window.inputDescription) {
       closeUploadOverlay();
-    }
-  };
-
-  window.onPostEscPress = function (evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
-      closePost();
     }
   };
 

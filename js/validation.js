@@ -45,7 +45,7 @@
       }
     }
   };
-  inputHashtags.addEventListener('input', onHashtagInput);
+  window.inputHashtags.addEventListener('input', onHashtagInput);
 
   var onDescriptionInput = function (evt) {
     var target = evt.target;
@@ -58,6 +58,6 @@
       target.setCustomValidity('');
     }
   };
-  inputDescription.addEventListener('input', onDescriptionInput);
+  window.inputDescription.addEventListener('input', onDescriptionInput);
 
 })();

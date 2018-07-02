@@ -3,27 +3,27 @@
 (function () {
 
   var setSliderLeftValue = function (leftValue) {
-    scalePin.style.left = leftValue + 'px';
-    scaleLevel.style.width = leftValue + 'px';
+    window.scalePin.style.left = leftValue + 'px';
+    window.scaleLevel.style.width = leftValue + 'px';
   };
 
   var setEffectValue = function (value) {
-    scaleValue.value = value;
-    switch (effectRadio.value) {
+    window.scaleValue.value = value;
+    switch (window.effectRadio.value) {
       case 'chrome':
-        previewImage.style.filter = 'grayscale(' + (value / 100) + ')';
+        window.previewImage.style.filter = 'grayscale(' + (value / 100) + ')';
         break;
       case 'sepia':
-        previewImage.style.filter = 'sepia(' + (value / 100) + ')';
+        window.previewImage.style.filter = 'sepia(' + (value / 100) + ')';
         break;
       case 'marvin':
-        previewImage.style.filter = 'invert(' + value + '%)';
+        window.previewImage.style.filter = 'invert(' + value + '%)';
         break;
       case 'phobos':
-        previewImage.style.filter = 'blur(' + ((value / 100) * 5) + 'px)';
+        window.previewImage.style.filter = 'blur(' + ((value / 100) * 5) + 'px)';
         break;
       case 'heat':
-        previewImage.style.filter = 'brightness(' + (((value / 100) * 2) + 1) + ')';
+        window.previewImage.style.filter = 'brightness(' + (((value / 100) * 2) + 1) + ')';
         break;
       default:
         break;
@@ -31,7 +31,7 @@
   };
 
   var updateSlider = function (x) {
-    var scaleLineBounding = scaleLine.getBoundingClientRect();
+    var scaleLineBounding = window.scaleLine.getBoundingClientRect();
     if (x >= scaleLineBounding.left && x <= scaleLineBounding.right) {
       var leftValue = x - scaleLineBounding.left;
       var effectValue = parseInt(leftValue / scaleLineBounding.width * 100, 10);
@@ -43,7 +43,7 @@
   var onScaleLineMouseUp = function (evt) {
     updateSlider(evt.clientX);
   };
-  scaleLine.addEventListener('mouseup', onScaleLineMouseUp);
+  window.scaleLine.addEventListener('mouseup', onScaleLineMouseUp);
 
   var onScalePinMouseDown = function () {
     var onMouseMove = function (evt) {
@@ -53,13 +53,13 @@
     var onMouseUp = function () {
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
-      scaleLine.addEventListener('mouseup', onScaleLineMouseUp);
+      window.scaleLine.addEventListener('mouseup', onScaleLineMouseUp);
     };
 
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
-    scaleLine.removeEventListener('mouseup', onScaleLineMouseUp);
+    window.scaleLine.removeEventListener('mouseup', onScaleLineMouseUp);
   };
-  scalePin.addEventListener('mousedown', onScalePinMouseDown);
+  window.scalePin.addEventListener('mousedown', onScalePinMouseDown);
 
 })();

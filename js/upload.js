@@ -9,8 +9,8 @@
   };
 
   var setDefaultResizeValue = function () {
-    window.resizeControlValue.value = RESIZE_MAX + '%';
-    window.previewImage.style.transform = 'scale(' + (RESIZE_MAX / 100) + ')';
+    window.resizeControlValue.value = window.RESIZE_MAX + '%';
+    window.previewImage.style.transform = 'scale(' + (window.RESIZE_MAX / 100) + ')';
   };
 
   setDefaultResizeValue();
@@ -53,7 +53,7 @@
 
   var onResizePlusButtonClick = function () {
     if (parseInt(window.resizeControlValue.value, 10) < window.RESIZE_MAX) {
-      var resizeValue = parseInt(resizeControlValue.value, 10);
+      var resizeValue = parseInt(window.resizeControlValue.value, 10);
       resizeValue += window.RESIZE_STEP;
       window.resizeControlValue.value = resizeValue + '%';
       window.previewImage.style.transform = 'scale(' + (resizeValue / 100) + ')';
@@ -76,7 +76,7 @@
   var onEffectChange = function () {
     changeEffect();
   };
-  for (var i = 0; i < effectItem.length; i++) {
+  for (var i = 0; i < window.effectItem.length; i++) {
     window.effectItem[i].addEventListener('click', onEffectChange);
   }
 

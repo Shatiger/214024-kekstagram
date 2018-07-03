@@ -69,7 +69,7 @@
   };
   inputDescription.addEventListener('input', onDescriptionInput);
 
-  var successHandler = function (data) {
+  var successHandler = function () {
     window.closeUploadOverlay();
   };
 
@@ -88,12 +88,12 @@
   var onFormSubmit = function (evt) {
     evt.preventDefault();
     var formData = new FormData();
-    formData.append("filename", inputFile.files[0]);
-    formData.append("scale", inputSize.value);
-    formData.append("effect-level", scaleValue.value);
-    formData.append("effect", effectRadio.value);
-    formData.append("hashtags", inputHashtags.value);
-    formData.append("description", inputDescription.value);
+    formData.append('filename', inputFile.files[0]);
+    formData.append('scale', inputSize.value);
+    formData.append('effect-level', scaleValue.value);
+    formData.append('effect', effectRadio.value);
+    formData.append('hashtags', inputHashtags.value);
+    formData.append('description', inputDescription.value);
     window.uploadPhoto(formData, successHandler, errorHandler);
   };
   form.addEventListener('submit', onFormSubmit);

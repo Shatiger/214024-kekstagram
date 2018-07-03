@@ -2,6 +2,9 @@
 
 (function () {
 
+  var inputHashtags = document.querySelector('.text__hashtags');
+  var inputDescription = document.querySelector('.text__description');
+
   var onHashtagInput = function (evt) {
     var target = evt.target;
     var isValid = true;
@@ -45,7 +48,7 @@
       }
     }
   };
-  window.inputHashtags.addEventListener('input', onHashtagInput);
+  inputHashtags.addEventListener('input', onHashtagInput);
 
   var onDescriptionInput = function (evt) {
     var target = evt.target;
@@ -58,6 +61,6 @@
       target.setCustomValidity('');
     }
   };
-  window.inputDescription.addEventListener('input', onDescriptionInput);
+  inputDescription.addEventListener('input', onDescriptionInput);
 
 })();

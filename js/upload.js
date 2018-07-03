@@ -28,6 +28,8 @@
   var inputHashtags = document.querySelector('.text__hashtags');
   var inputDescription = document.querySelector('.text__description');
 
+  var form = document.getElementById('upload-select-image');
+
   var setDefaultScaleValue = function () {
     scaleValue.value = 100;
     scalePin.style.left = '100%';
@@ -51,10 +53,11 @@
     document.addEventListener('keydown', onUploadEscPress);
   };
 
-  var closeUploadOverlay = function () {
+  window.closeUploadOverlay = function () {
     document.querySelector('.img-upload__overlay').classList.add('hidden');
     uploadFileInput.value = '';
     document.removeEventListener('keydown', onUploadEscPress);
+    form.reset();
   };
 
   var onUploadButtonChange = function () {
@@ -63,7 +66,7 @@
   uploadButton.addEventListener('change', onUploadButtonChange);
 
   var onUploadCancelButtonClick = function () {
-    closeUploadOverlay();
+    window.closeUploadOverlay();
   };
   uploadCancelButton.addEventListener('click', onUploadCancelButtonClick);
 
@@ -108,7 +111,7 @@
 
   var onUploadEscPress = function (evt) {
     if (evt.keyCode === ESC_KEYCODE && document.activeElement !== inputHashtags && document.activeElement !== inputDescription) {
-      closeUploadOverlay();
+      window.closeUploadOverlay();
     }
   };
 

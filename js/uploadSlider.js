@@ -2,28 +2,36 @@
 
 (function () {
 
+  var scalePin = document.querySelector('.scale__pin');
+  var effectRadio = document.getElementById('upload-select-image').effect;
+  var previewImage = document.querySelector('.img-upload__preview img');
+
+  var scaleValue = document.querySelector('.scale__value');
+  var scaleLevel = document.querySelector('.scale__level');
+  var scaleLine = document.querySelector('.scale__line');
+
   var setSliderLeftValue = function (leftValue) {
-    window.scalePin.style.left = leftValue + 'px';
-    window.scaleLevel.style.width = leftValue + 'px';
+    scalePin.style.left = leftValue + 'px';
+    scaleLevel.style.width = leftValue + 'px';
   };
 
   var setEffectValue = function (value) {
-    window.scaleValue.value = value;
-    switch (window.effectRadio.value) {
+    scaleValue.value = value;
+    switch (effectRadio.value) {
       case 'chrome':
-        window.previewImage.style.filter = 'grayscale(' + (value / 100) + ')';
+        previewImage.style.filter = 'grayscale(' + (value / 100) + ')';
         break;
       case 'sepia':
-        window.previewImage.style.filter = 'sepia(' + (value / 100) + ')';
+        previewImage.style.filter = 'sepia(' + (value / 100) + ')';
         break;
       case 'marvin':
-        window.previewImage.style.filter = 'invert(' + value + '%)';
+        previewImage.style.filter = 'invert(' + value + '%)';
         break;
       case 'phobos':
-        window.previewImage.style.filter = 'blur(' + ((value / 100) * 5) + 'px)';
+        previewImage.style.filter = 'blur(' + ((value / 100) * 5) + 'px)';
         break;
       case 'heat':
-        window.previewImage.style.filter = 'brightness(' + (((value / 100) * 2) + 1) + ')';
+        previewImage.style.filter = 'brightness(' + (((value / 100) * 2) + 1) + ')';
         break;
       default:
         break;
@@ -31,7 +39,7 @@
   };
 
   var updateSlider = function (x) {
-    var scaleLineBounding = window.scaleLine.getBoundingClientRect();
+    var scaleLineBounding = scaleLine.getBoundingClientRect();
     if (x >= scaleLineBounding.left && x <= scaleLineBounding.right) {
       var leftValue = x - scaleLineBounding.left;
       var effectValue = parseInt(leftValue / scaleLineBounding.width * 100, 10);
@@ -43,7 +51,7 @@
   var onScaleLineMouseUp = function (evt) {
     updateSlider(evt.clientX);
   };
-  window.scaleLine.addEventListener('mouseup', onScaleLineMouseUp);
+  scaleLine.addEventListener('mouseup', onScaleLineMouseUp);
 
   var onScalePinMouseDown = function () {
     var onMouseMove = function (evt) {
@@ -53,13 +61,13 @@
     var onMouseUp = function () {
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
-      window.scaleLine.addEventListener('mouseup', onScaleLineMouseUp);
+      scaleLine.addEventListener('mouseup', onScaleLineMouseUp);
     };
 
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
-    window.scaleLine.removeEventListener('mouseup', onScaleLineMouseUp);
+    scaleLine.removeEventListener('mouseup', onScaleLineMouseUp);
   };
-  window.scalePin.addEventListener('mousedown', onScalePinMouseDown);
+  scalePin.addEventListener('mousedown', onScalePinMouseDown);
 
 })();

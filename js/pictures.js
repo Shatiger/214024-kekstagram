@@ -15,6 +15,8 @@
   var picturesContainer = document.querySelector('.pictures');
   var pictureCancel = document.getElementById('picture-cancel');
 
+  var imageFilter = document.querySelector('.img-filters');
+
   var posts = [];
 
   var renderPics = function (post) {
@@ -52,7 +54,8 @@
     for (var i = 0; i < posts.length; i++) {
       posts[i].element = 'pic' + i;
     }
-    loadPosts();
+    loadPosts(posts);
+    imageFilter.classList.remove('img-filters--inactive');
   };
 
   var errorHandler = function (errorMessage) {
@@ -69,12 +72,19 @@
 
   window.backend.load(successHandler, errorHandler);
 
-  var loadPosts = function () {
+  var loadPosts = function (data) {
     var fragment = document.createDocumentFragment();
-    for (var j = 0; j < posts.length; j++) {
-      fragment.appendChild(renderPics(posts[j]));
+    for (var j = 0; j < data.length; j++) {
+      fragment.appendChild(renderPics(data[j]));
     }
     listElement.appendChild(fragment);
+  };
+
+  var clearPosts = function () {
+    var elements = listElement.querySelectorAll('.picture__link');
+    for (var i = 0; i < elements.length; i++) {
+      elements[i].remove();
+    }
   };
 
   var openPost = function (node) {
@@ -112,5 +122,10 @@
       closePost();
     }
   };
+
+  window.pictures = {
+    clearPosts: clearPosts,
+    loadPosts: loadPosts
+  }
 
 })();

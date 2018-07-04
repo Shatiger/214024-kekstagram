@@ -28,6 +28,8 @@
   var inputHashtags = document.querySelector('.text__hashtags');
   var inputDescription = document.querySelector('.text__description');
 
+  var form = document.getElementById('upload-select-image');
+
   var setDefaultScaleValue = function () {
     scaleValue.value = 100;
     scalePin.style.left = '100%';
@@ -55,6 +57,11 @@
     document.querySelector('.img-upload__overlay').classList.add('hidden');
     uploadFileInput.value = '';
     document.removeEventListener('keydown', onUploadEscPress);
+    form.reset();
+  };
+
+  window.upload = {
+    close: closeUploadOverlay
   };
 
   var onUploadButtonChange = function () {

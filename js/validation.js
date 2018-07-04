@@ -4,6 +4,12 @@
 
   var inputHashtags = document.querySelector('.text__hashtags');
   var inputDescription = document.querySelector('.text__description');
+  var inputFile = document.getElementById('upload-file');
+  var inputSize = document.querySelector('.resize__control--value');
+  var scaleValue = document.querySelector('.scale__value');
+  var effectRadio = document.getElementById('upload-select-image').effect;
+
+  var form = document.getElementById('upload-select-image');
 
   var onHashtagInput = function (evt) {
     var target = evt.target;
@@ -62,5 +68,34 @@
     }
   };
   inputDescription.addEventListener('input', onDescriptionInput);
+
+  var successHandler = function () {
+    window.upload.close();
+  };
+
+  var errorHandler = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: firebrick;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '15px';
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
+  var onFormSubmit = function (evt) {
+    evt.preventDefault();
+    var formData = new FormData();
+    formData.append('filename', inputFile.files[0]);
+    formData.append('scale', inputSize.value);
+    formData.append('effect-level', scaleValue.value);
+    formData.append('effect', effectRadio.value);
+    formData.append('hashtags', inputHashtags.value);
+    formData.append('description', inputDescription.value);
+    window.backend.uploadPhoto(formData, successHandler, errorHandler);
+  };
+  form.addEventListener('submit', onFormSubmit);
 
 })();

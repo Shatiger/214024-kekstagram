@@ -67,7 +67,7 @@
     document.body.insertAdjacentElement('afterbegin', node);
   };
 
-  window.load(successHandler, errorHandler);
+  window.backend.load(successHandler, errorHandler);
 
   var loadPosts = function () {
     var fragment = document.createDocumentFragment();

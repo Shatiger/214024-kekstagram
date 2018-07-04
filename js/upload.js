@@ -53,11 +53,15 @@
     document.addEventListener('keydown', onUploadEscPress);
   };
 
-  window.closeUploadOverlay = function () {
+  var closeUploadOverlay = function () {
     document.querySelector('.img-upload__overlay').classList.add('hidden');
     uploadFileInput.value = '';
     document.removeEventListener('keydown', onUploadEscPress);
     form.reset();
+  };
+
+  window.upload = {
+    close: closeUploadOverlay
   };
 
   var onUploadButtonChange = function () {
@@ -66,7 +70,7 @@
   uploadButton.addEventListener('change', onUploadButtonChange);
 
   var onUploadCancelButtonClick = function () {
-    window.closeUploadOverlay();
+    closeUploadOverlay();
   };
   uploadCancelButton.addEventListener('click', onUploadCancelButtonClick);
 
@@ -111,7 +115,7 @@
 
   var onUploadEscPress = function (evt) {
     if (evt.keyCode === ESC_KEYCODE && document.activeElement !== inputHashtags && document.activeElement !== inputDescription) {
-      window.closeUploadOverlay();
+      closeUploadOverlay();
     }
   };
 

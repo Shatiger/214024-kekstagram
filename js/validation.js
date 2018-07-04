@@ -70,7 +70,7 @@
   inputDescription.addEventListener('input', onDescriptionInput);
 
   var successHandler = function () {
-    window.closeUploadOverlay();
+    window.upload.close();
   };
 
   var errorHandler = function (errorMessage) {
@@ -94,7 +94,7 @@
     formData.append('effect', effectRadio.value);
     formData.append('hashtags', inputHashtags.value);
     formData.append('description', inputDescription.value);
-    window.uploadPhoto(formData, successHandler, errorHandler);
+    window.backend.uploadPhoto(formData, successHandler, errorHandler);
   };
   form.addEventListener('submit', onFormSubmit);
 

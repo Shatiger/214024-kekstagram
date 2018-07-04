@@ -126,6 +126,6 @@
   window.pictures = {
     clearPosts: clearPosts,
     loadPosts: loadPosts
-  }
+  };
 
 })();

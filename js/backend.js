@@ -44,5 +44,5 @@
   window.backend = {
     load: load,
     uploadPhoto: uploadPhoto
-  }
+  };
 })();

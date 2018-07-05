@@ -11,11 +11,19 @@
 
   var form = document.getElementById('upload-select-image');
 
+  var setBorder = function (element) {
+    element.style = 'border: 1px solid red; padding: 6px 12px;';
+  };
+
+  var removeBorder = function (element) {
+    element.style = '';
+  };
+
   var onHashtagInput = function (evt) {
     var target = evt.target;
     var isValid = true;
     var inputValue = target.value;
-
+    removeBorder(target);
     if (inputValue.length === 0) {
       target.setCustomValidity('');
     } else {
@@ -25,24 +33,29 @@
       }
       if (hashtags.length > 5) {
         target.setCustomValidity('Нельзя указывать больше 5 хэштегов!');
+        setBorder(target);
       } else {
         for (var n = 0; n < hashtags.length; n++) {
           if (hashtags[n].charAt(0) !== '#') {
             target.setCustomValidity('Хэштеги должны начинаться с символа "#"!');
+            setBorder(target);
             isValid = false;
             break;
           } else if (hashtags[n].length === 1) {
             target.setCustomValidity('Хэштег должен иметь не только лишь символ "#"!');
+            setBorder(target);
             isValid = false;
             break;
           } else if (hashtags[n].length > 20) {
             target.setCustomValidity('Максимальная длина хэштега - 20 символов, включая символ "#"!');
+            setBorder(target);
             isValid = false;
             break;
           }
           for (var h = 0; h < hashtags.length; h++) {
             if (n !== h && hashtags[h] === hashtags[n]) {
               target.setCustomValidity('Не должно быть одинаковых хэштегов! Хэштеги не чувствительны к регистру!');
+              setBorder(target);
               isValid = false;
               break;
             }
@@ -59,10 +72,12 @@
   var onDescriptionInput = function (evt) {
     var target = evt.target;
     var inputValue = target.value;
+    removeBorder(target);
     if (inputValue.length === 0) {
       target.setCustomValidity('');
     } else if (inputValue.length > 140) {
       target.setCustomValidity('Длина описания не может превышать 140 символов!');
+      setBorder(target);
     } else {
       target.setCustomValidity('');
     }

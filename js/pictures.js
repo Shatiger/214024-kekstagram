@@ -3,6 +3,8 @@
 (function () {
 
   var ESC_KEYCODE = 27;
+  var COMMENTS_COUNT = 5;
+  var AVATARS_COUNT = 5;
 
   var listElement = document.querySelector('.pictures');
   var pictureTemplate = document.querySelector('#picture')
@@ -35,8 +37,9 @@
     bigPicture.querySelector('.comments-count').textContent = post.comments.length;
     bigPicture.querySelector('.social__comments').innerHTML = '';
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < post.comments.length; i++) {
-      var avatar = Math.ceil(Math.random() * 5);
+    var displayedCommentsCount = (post.comments.length >= COMMENTS_COUNT) ? COMMENTS_COUNT : post.comments.length;
+    for (var i = 0; i < displayedCommentsCount; i++) {
+      var avatar = Math.ceil(Math.random() * AVATARS_COUNT);
       var commentElement = commentTemplate.cloneNode(true);
       commentElement.querySelector('img').src = 'img/avatar-' + avatar + '.svg';
       commentElement.querySelector('p').textContent = post.comments[i];

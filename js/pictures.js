@@ -123,9 +123,14 @@
     }
   };
 
+  var getPosts = function () {
+    return posts;
+  };
+
   window.pictures = {
     clearPosts: clearPosts,
-    loadPosts: loadPosts
+    loadPosts: loadPosts,
+    getPosts: getPosts
   };
 
 })();

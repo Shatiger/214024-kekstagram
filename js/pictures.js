@@ -77,13 +77,13 @@
 
   window.backend.load(successHandler, errorHandler);
 
-  var loadPosts = window.debounce(function (data) {
+  var loadPosts = function (data) {
     var fragment = document.createDocumentFragment();
     for (var j = 0; j < data.length; j++) {
       fragment.appendChild(renderPics(data[j]));
     }
     listElement.appendChild(fragment);
-  });
+  };
 
   var clearPosts = function () {
     var elements = listElement.querySelectorAll('.picture__link');

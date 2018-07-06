@@ -11,7 +11,6 @@
 
   var uploadButton = document.getElementById('upload-file');
   var uploadCancelButton = document.getElementById('upload-cancel');
-  var uploadFileInput = document.getElementById('upload-file');
 
   var scalePin = document.querySelector('.scale__pin');
   var effectItem = document.querySelectorAll('.effects__item');
@@ -59,7 +58,7 @@
   var closeUploadOverlay = function () {
     bodyElement.classList.remove('modal-open');
     document.querySelector('.img-upload__overlay').classList.add('hidden');
-    uploadFileInput.value = '';
+    uploadButton.value = '';
     document.removeEventListener('keydown', onUploadEscPress);
     form.reset();
   };

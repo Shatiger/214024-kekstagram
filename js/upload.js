@@ -70,7 +70,7 @@
 
   var showUploadOverlay = function () {
     uploadOverlay.classList.remove('hidden');
-  }
+  };
 
   var onUploadButtonChange = function () {
     openUploadOverlay();

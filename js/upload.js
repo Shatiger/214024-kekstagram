@@ -63,10 +63,6 @@
     form.reset();
   };
 
-  window.upload = {
-    close: closeUploadOverlay
-  };
-
   var onUploadButtonChange = function () {
     openUploadOverlay();
   };
@@ -120,6 +116,10 @@
     if (evt.keyCode === ESC_KEYCODE && document.activeElement !== inputHashtags && document.activeElement !== inputDescription) {
       closeUploadOverlay();
     }
+  };
+
+  window.upload = {
+    close: closeUploadOverlay
   };
 
 })();

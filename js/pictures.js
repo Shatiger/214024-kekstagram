@@ -14,8 +14,9 @@
   var commentTemplate = document.querySelector('.social__comment');
   var bigPicture = document.querySelector('.big-picture');
 
-  var picturesContainer = document.querySelector('.pictures');
-  var pictureCancel = document.getElementById('picture-cancel');
+  var picturesContainerElement = document.querySelector('.pictures');
+  var pictureCancelElement = document.getElementById('picture-cancel');
+  var bodyElement = document.body;
 
   var imageFilter = document.querySelector('.img-filters');
 
@@ -31,6 +32,7 @@
   };
 
   var renderPost = function (post) {
+    bodyElement.classList.add('modal-open');
     bigPicture.classList.remove('hidden');
     bigPicture.querySelector('.big-picture__img img').src = post.url;
     bigPicture.querySelector('.likes-count').textContent = post.likes;
@@ -62,15 +64,7 @@
   };
 
   var errorHandler = function (errorMessage) {
-    var node = document.createElement('div');
-    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: firebrick;';
-    node.style.position = 'absolute';
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.fontSize = '15px';
-
-    node.textContent = errorMessage;
-    document.body.insertAdjacentElement('afterbegin', node);
+    window.error.showLoadError(errorMessage);
   };
 
   window.backend.load(successHandler, errorHandler);
@@ -102,6 +96,7 @@
 
   var closePost = function () {
     bigPicture.classList.add('hidden');
+    bodyElement.classList.remove('modal-open');
     document.removeEventListener('keydown', onPostEscPress);
   };
 
@@ -113,12 +108,12 @@
     evt.preventDefault();
     openPost(target);
   };
-  picturesContainer.addEventListener('click', onPicturesContainerClick);
+  picturesContainerElement.addEventListener('click', onPicturesContainerClick);
 
   var onPictureCancelClick = function () {
     closePost();
   };
-  pictureCancel.addEventListener('click', onPictureCancelClick);
+  pictureCancelElement.addEventListener('click', onPictureCancelClick);
 
   var onPostEscPress = function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {

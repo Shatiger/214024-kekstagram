@@ -36,23 +36,12 @@
     var target = evt.target;
     if (target.className === 'error__link error__link--again') {
       window.upload.show();
-      var uploadErrorMessage = document.querySelector('.img-upload__message--error');
-      uploadErrorMessage.remove();
     }
     if (target.className === 'error__link error__link--other') {
       window.upload.close();
-      var uploadErrorMessage = document.querySelector('.img-upload__message--error');
-      uploadErrorMessage.remove();
     }
-  };
-
-  var onTryAgainClick = function (evt) {
-    window.upload.show();
-    var target = evt.target;
-  };
-
-  var onUploadOtherClick = function () {
-    
+    var uploadErrorMessageElement = document.querySelector('.img-upload__message--error');
+    uploadErrorMessageElement.remove();
   };
 
   window.error = {

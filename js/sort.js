@@ -24,7 +24,7 @@
     return result;
   };
 
-  var onImageFiltersFormClick = function (evt) {
+  var onImageFiltersFormClick = window.debounce(function (evt) {
     posts = window.pictures.getPosts();
     var target = evt.target;
     for (var i = 0; i < imageFilterButtons.length; i++) {
@@ -54,7 +54,7 @@
       default:
         break;
     }
-  };
+  });
   imageFiltersForm.addEventListener('click', onImageFiltersFormClick);
 
 })();

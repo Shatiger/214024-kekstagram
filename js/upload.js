@@ -7,6 +7,8 @@
   var RESIZE_STEP = 25;
   var ESC_KEYCODE = 27;
 
+  var bodyElement = document.body;
+
   var uploadButton = document.getElementById('upload-file');
   var uploadCancelButton = document.getElementById('upload-cancel');
   var uploadFileInput = document.getElementById('upload-file');
@@ -45,6 +47,7 @@
   setDefaultScaleValue();
 
   var openUploadOverlay = function () {
+    bodyElement.classList.add('modal-open');
     radioFilter[0].checked = true;
     changeEffect();
     document.querySelector('.img-upload__overlay').classList.remove('hidden');
@@ -54,6 +57,7 @@
   };
 
   var closeUploadOverlay = function () {
+    bodyElement.classList.remove('modal-open');
     document.querySelector('.img-upload__overlay').classList.add('hidden');
     uploadFileInput.value = '';
     document.removeEventListener('keydown', onUploadEscPress);

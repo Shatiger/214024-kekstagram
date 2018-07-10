@@ -46,6 +46,11 @@
             setBorder(target);
             isValid = false;
             break;
+          } else if (hashtags[n].lastIndexOf('#') > 0) {
+            target.setCustomValidity('Хэштеги должны разделяться пробелами!');
+            setBorder(target);
+            isValid = false;
+            break;
           } else if (hashtags[n].length > 20) {
             target.setCustomValidity('Максимальная длина хэштега - 20 символов, включая символ "#"!');
             setBorder(target);
@@ -89,7 +94,7 @@
   };
 
   var errorHandler = function () {
-    window.error.showUploadError();
+    window.error.showUpload();
   };
 
   var onFormSubmit = function (evt) {

@@ -27,9 +27,9 @@
   var onImageFiltersFormClick = window.debounce(function (evt) {
     posts = window.pictures.getPosts();
     var target = evt.target;
-    for (var i = 0; i < imageFilterButtons.length; i++) {
-      imageFilterButtons[i].classList.remove('img-filters__button--active');
-    }
+    imageFilterButtons.forEach(function (item) {
+      item.classList.remove('img-filters__button--active');
+    });
     target.classList.add('img-filters__button--active');
     window.pictures.clearPosts();
     switch (target.id) {

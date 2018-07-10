@@ -45,8 +45,8 @@
   };
 
   window.error = {
-    showLoadError: showLoadError,
-    showUploadError: showUploadError
+    showLoad: showLoadError,
+    showUpload: showUploadError
   };
 
 })();

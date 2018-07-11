@@ -30,6 +30,7 @@
 
   var inputHashtags = document.querySelector('.text__hashtags');
   var inputDescription = document.querySelector('.text__description');
+  var inputFile = document.getElementById('upload-file');
 
   var form = document.getElementById('upload-select-image');
 
@@ -48,6 +49,19 @@
   setDefaultScaleValue();
 
   var openUploadOverlay = function () {
+    var file = inputFile.files[0];
+    previewImage.file = file;
+
+    var reader = new FileReader();
+    reader.onload = (
+      function (aImg) {
+        return function (e) {
+          aImg.src = e.target.result;
+        };
+      }
+    )(previewImage);
+    reader.readAsDataURL(file);
+
     bodyElement.classList.add('modal-open');
     radioFilter[0].checked = true;
     changeEffect();
